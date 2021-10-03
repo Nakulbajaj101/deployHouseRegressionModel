@@ -45,10 +45,11 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - *fetch_data
       - run:
           name: download house dataset
           command: |
-            bash  fetch_kaggle_dataset.sh
+            fetch_kaggle_dataset
 
   build-and-test-api: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a Docker executors: https://circleci.com/docs/2.0/executor-types/
@@ -84,8 +85,12 @@ workflows:
   
   train:
     jobs:
-      - download-dataset
+      - download-dataset:
+          requires:
+            - dependencies
 
   test:
     jobs:
-      - build-and-test-api
+      - build-and-test-api:
+          requires:
+            - dependencies
