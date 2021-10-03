@@ -26,6 +26,7 @@ fetch_data: &fetch_data
     name: Fetch data from kaggle
     command: |
       chmod +x ./scripts/fetch_kaggle_dataset.sh
+      ./scripts/fetch_kaggle_dataset.sh
     working_directory: ~/project/deployHouseRegressionModel
 
 
@@ -41,10 +42,6 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - *fetch_data
-      - run:
-          name: download house dataset
-          command: |
-            bash fetch_kaggle_dataset.sh
 
   build-and-test-api: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a Docker executors: https://circleci.com/docs/2.0/executor-types/
