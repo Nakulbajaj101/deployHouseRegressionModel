@@ -12,6 +12,7 @@ orbs:
 prepare_docker: &defaults
   docker:
     - image: cimg/python:3.8
+  working_directory: ~/project
 
 
 prepare_tox: &prepare_tox
