@@ -28,12 +28,6 @@ fetch_data: &fetch_data
       chmod +x ./scripts/fetch_kaggle_dataset.sh
     working_directory: ~/project/deployHouseRegressionModel
 
-build-and-download-dependencies: &fetch_dependencies
-    steps:
-      - checkout:
-          path: ~/project
-      - python/install-packages:
-          pkg-manager: pip
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -42,7 +36,10 @@ jobs:
     <<: *defaults
     working_directory: ~/project/deployHouseRegressionModel/scripts
     steps:
-      - *fetch_dependencies
+      - checkout:
+          path: ~/project
+      - python/install-packages:
+          pkg-manager: pip
       - *fetch_data
       - run:
           name: download house dataset
@@ -64,7 +61,10 @@ jobs:
     <<: *defaults
     working_directory: ~/project/deployHouseRegressionModel/housePriceServiceApi
     steps:
-      - *fetch_dependencies
+      - checkout:
+          path: ~/project
+      - python/install-packages:
+          pkg-manager: pip
       - *prepare_tox
       - run:
           name: Running the service api
