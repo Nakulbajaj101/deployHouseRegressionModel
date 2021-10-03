@@ -14,6 +14,7 @@ orbs:
 prepare_docker: &defaults
   docker:
     - image: cimg/python:3.8
+  working_directory: ~/project
 
 
 prepare_tox: &prepare_tox
@@ -46,7 +47,8 @@ jobs:
     <<: *defaults
     working_directory: ~/project/housePriceServiceApi
     steps:
-      - checkout
+      - checkout:
+        path: ~/project
       - python/install-packages:
           pkg-manager: pip
       - *prepare_tox
