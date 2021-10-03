@@ -64,8 +64,6 @@ jobs:
     <<: *defaults
     working_directory: ~/project/deployHouseRegressionModel/housePriceServiceApi
     steps:
-      - checkout:
-          path: ~/project
       - *fetch_dependencies
       - *prepare_tox
       - run:
