@@ -2,7 +2,7 @@
 /deployML
 
 # Cache and tox files
-/.tox
-/.mypy_cache
+.tox/
+.mypy_cache/
 /__pycache__
 /.vscode
