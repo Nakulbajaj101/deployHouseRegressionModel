@@ -4,5 +4,6 @@
 # Cache and tox files
 .tox/
 .mypy_cache/
-/__pycache__
+__pycache__/
 /.vscode
+*.DS_Store
