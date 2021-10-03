@@ -3,15 +3,14 @@ from setuptools import find_packages, setup
 
 # Package meta-data.
 NAME = 'tid-houseregression-model'
-DESCRIPTION = "Example regression model package to train regression on house data"
+DESCRIPTION = "Example regression model package to train regression on house\
+              data"
 URL = "https://github.com/Nakulbajaj101/deploying-machine-learning-models"
 EMAIL = "bajaj.nakul@gmail.com"
 AUTHOR = "Nakul Bajaj"
 REQUIRES_PYTHON = ">=3.6.0"
 
-
-
-long_description=DESCRIPTION
+long_description = DESCRIPTION
 
 about = {}
 
@@ -23,9 +22,11 @@ with open(PACKAGE_DIR / "VERSION") as f:
     _version = f.read().strip()
     about["__version__"] = _version
 
+
 def list_reqs(fname="requirements.txt"):
     with open(REQUIREMENTS_DIR / fname) as fd:
         return fd.read().splitlines()
+
 
 setup(
     name=NAME,
@@ -49,5 +50,4 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-
 )
