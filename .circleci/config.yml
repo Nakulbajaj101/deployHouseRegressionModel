@@ -37,6 +37,24 @@ jobs:
           name: Running the download of dataset
           command: |
             tox -e download_data
+  
+  train-and-publish-model:
+    <<: *defaults
+    working_directory: ~/project/deployHouseRegressionModel/housePriceModelling
+    steps:
+      - checkout:
+          path: ~/project
+      - python/install-packages:
+          pkg-manager: pip
+      - *prepare_tox
+      - run:
+          name: Running the download of dataset
+          command: |
+            tox -e download_data
+      - run:
+          name: Train Model
+          command: |
+            tox
 
   build-and-test-api: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a Docker executors: https://circleci.com/docs/2.0/executor-types/
@@ -70,5 +88,5 @@ workflows:
   dependencies: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - download-dataset
+      - train-and-publish-model
       - build-and-test-api
