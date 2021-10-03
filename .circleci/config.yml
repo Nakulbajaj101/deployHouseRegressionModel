@@ -92,6 +92,7 @@ jobs:
       - run:
           name: Deploy house regression model service to heroku
           command: |
+            heroku git:remote -a $HEROKU_APP_NAME
             git subtree push --prefix deployHouseRegressionModel/housePriceServiceApi heroku master
 
 # Invoke jobs via workflows
