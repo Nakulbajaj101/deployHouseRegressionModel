@@ -88,8 +88,9 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - heroku/install
       - run:
-          name: Deploy house regression model to heroku
+          name: Deploy house regression model service to heroku
           command: |
             git subtree push --prefix deployHouseRegressionModel/housePriceServiceApi heroku master
 
