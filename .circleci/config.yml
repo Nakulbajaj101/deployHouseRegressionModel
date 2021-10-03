@@ -105,7 +105,7 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - train-and-publish-model
-      - build-and-test-api
+      - build-and-test-api:
           requires:
             - train-and-publish-model
       - deploy-app-to-heroku:
