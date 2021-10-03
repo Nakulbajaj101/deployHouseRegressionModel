@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: tid-houseregression-model
 Version: 0.1.3
-Summary: Example regression model package to train regression on house data
+Summary: Example regression model package to train regression on house              data
 Home-page: https://github.com/Nakulbajaj101/deploying-machine-learning-models
 Author: Nakul Bajaj
 Author-email: bajaj.nakul@gmail.com
@@ -16,5 +16,5 @@ Requires-Python: >=3.6.0
 Description-Content-Type: text/markdown
 License-File: LICENCE
 
-Example regression model package to train regression on house data
+Example regression model package to train regression on house              data
 

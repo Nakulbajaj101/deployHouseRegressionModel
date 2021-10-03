@@ -11,8 +11,6 @@ houseregression_model/predict.py
 houseregression_model/train_pipeline.py
 houseregression_model/config/__init__.py
 houseregression_model/config/core.py
-houseregression_model/datasets/test.csv
-houseregression_model/datasets/train.csv
 houseregression_model/processing/__init__.py
 houseregression_model/processing/features.py
 houseregression_model/processing/utility_functions.py
