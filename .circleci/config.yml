@@ -82,15 +82,9 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-download-dependencies
-  
-  train:
-    jobs:
       - download-dataset:
           requires:
-            - dependencies
-
-  test:
-    jobs:
+            - build-and-download-dependencies
       - build-and-test-api:
           requires:
-            - dependencies
+            - build-and-download-dependencies
