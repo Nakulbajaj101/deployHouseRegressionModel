@@ -85,7 +85,7 @@ jobs:
 
   deploy-app-to-heroku:
     <<: *defaults
-    working_directory: ~/project/deployHouseRegressionModel/housePriceServiceApi
+    working_directory: ~/project
     steps:
       - checkout:
           path: ~/project
@@ -94,8 +94,7 @@ jobs:
           name: Deploy house regression model service to heroku
           command: |
             echo "The command will install heroku"
-            [[ -e \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
-      - heroku/deploy-via-git
+            git subtree push --prefix deployHouseRegressionModel/housePriceServiceApi https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git heroku master
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
