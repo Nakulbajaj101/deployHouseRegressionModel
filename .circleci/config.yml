@@ -26,6 +26,7 @@ fetch_data: &fetch_data
     name: Fetch data from kaggle
     command: |
       chmod + x ./scripts/fetch_kaggle_dataset.sh
+    working_directory: ~/project/deployHouseRegressionModel
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
