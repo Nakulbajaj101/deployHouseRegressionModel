@@ -104,6 +104,9 @@ workflows:
     jobs:
       - train-and-publish-model
       - build-and-test-api
-      - deploy-app-to-heroku
+      - deploy-app-to-heroku:
           requires:
             - build-and-test-api
+          filters:
+            branches:
+              only: master
