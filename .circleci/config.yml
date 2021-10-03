@@ -94,7 +94,7 @@ jobs:
           name: Deploy house regression model service to heroku
           command: |
             echo "The command will install heroku"
-            "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+            [[ -e \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
       - heroku/deploy-via-git
 
 # Invoke jobs via workflows
