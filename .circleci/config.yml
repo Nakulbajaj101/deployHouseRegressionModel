@@ -25,7 +25,7 @@ fetch_data: &fetch_data
   run:
     name: Fetch data from kaggle
     command: |
-      chmod + x ./scripts/fetch_kaggle_dataset.sh
+      chmod +x ./scripts/fetch_kaggle_dataset.sh
     working_directory: ~/project/deployHouseRegressionModel
 
 # Define a job to be invoked later in a workflow.
