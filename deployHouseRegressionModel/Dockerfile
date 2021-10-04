@@ -7,7 +7,7 @@ RUN groupadd fausers && useradd -ms /bin/bash -g fausers -u 58976 ml-user
 WORKDIR /opt/ml-api
 
 #adding an environment variable which will come from CI
-ARG GEMFURY_PULL_PACKAGE_URL
+ARG GEMFURY_PULL_PACKAGE_URL=$GEMFURY_PULL_PACKAGE_URL
 
 #copying the directory and installing requirements
 ADD ./housePriceServiceApi ./
