@@ -112,7 +112,7 @@ jobs:
           name: Build and push the docker image and release the app
           command: |
             heroku container:login
-            heroku container:push --arg GEMFURY_PULL_PACKAGE_URL=$GEMFURY_PULL_PACKAGE_URL -a $HEROKU_APP_NAME web
+            heroku container:push -a $HEROKU_APP_NAME web --arg GEMFURY_PULL_PACKAGE_URL=${GEMFURY_PULL_PACKAGE_URL}
             heroku container:release -a $HEROKU_APP_NAME web
 
 # Invoke jobs via workflows
