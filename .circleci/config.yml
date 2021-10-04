@@ -104,7 +104,6 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 20.10.7
-          #docker_layer_caching: true
       - checkout:
           path: ~/project
       - heroku/install
@@ -121,13 +120,13 @@ workflows:
   dependencies: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      #- train-and-publish-model
-      #- build-and-test-api:
-      #    requires:
-      #      - train-and-publish-model
+      - train-and-publish-model
+      - build-and-test-api:
+          requires:
+            - train-and-publish-model
       - deploy-app-to-docker-heroku:
-          #requires:
-           # - build-and-test-api
+          requires:
+           - build-and-test-api
           filters:
             branches:
               only: master

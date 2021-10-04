@@ -9,6 +9,12 @@ WORKDIR /opt/ml-api
 #adding an environment variable which will come from CI
 ARG GEMFURY_PULL_PACKAGE_URL
 
+#changing ownership from root to user for the CWD
+RUN chown -R ml-user:fausers ./
+
+#chaging the user to run the image
+USER ml-user
+
 #copying the directory and installing requirements
 ADD ./housePriceServiceApi ./
 RUN pip install --upgrade pip
@@ -16,12 +22,6 @@ RUN pip install -r requirements.txt
 
 #giving run privelages to run file
 RUN chmod +x ./run.sh
-
-#changing ownership from root to user for the CWD
-RUN chown -R ml-user:fausers ./
-
-#chaging the user to run the image
-USER ml-user
 
 #exposing the port
 EXPOSE 8001
