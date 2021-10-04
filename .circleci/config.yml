@@ -102,6 +102,9 @@ jobs:
     <<: *defaults
     working_directory: ~/project/deployHouseRegressionModel
     steps:
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
       - checkout:
           path: ~/project
       - heroku/install
