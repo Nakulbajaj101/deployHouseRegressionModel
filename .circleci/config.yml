@@ -8,7 +8,7 @@ orbs:
   # so you dont have to copy and paste it everywhere.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@1.2
-  heroku: circleci/heroku@0.0.10
+  heroku: circleci/heroku@01.2.6
 
 prepare_docker: &defaults
   docker:
