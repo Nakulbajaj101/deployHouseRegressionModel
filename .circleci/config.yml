@@ -10,6 +10,7 @@ orbs:
   python: circleci/python@1.2
   heroku: circleci/heroku@01.2.6
   aws-ecr: circleci/aws-ecr@7.2.0
+  aws-ecs: circleci/aws-ecs@2.0
 
 prepare_docker: &defaults
   docker:
@@ -115,6 +116,17 @@ jobs:
             heroku container:push -a $HEROKU_APP_NAME web --arg GEMFURY_PULL_PACKAGE_URL=${GEMFURY_PULL_PACKAGE_URL}
             heroku container:release -a $HEROKU_APP_NAME web
 
+  run-task:
+    <<: *defaults
+    steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-ecs/run-task:
+          cluster: houseRegCluster
+          task-definition: houseml-service-task
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -143,3 +155,6 @@ workflows:
           repo: 'ml-house-reg'
           skip-when-tags-exist: false
           tag: 'latest'
+      - run-task:
+          requires:
+            - aws-ecr/build-and-push-image
