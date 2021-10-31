@@ -138,7 +138,7 @@ workflows:
           create-repo: true
           no-output-timeout: 20m
           path: '~/project/deployHouseRegressionModel'
-          extra-build-args: 'GEMFURY_PULL_PACKAGE_URL=${GEMFURY_PULL_PACKAGE_URL}'
+          extra-build-args: ' --build_arg GEMFURY_PULL_PACKAGE_URL=${GEMFURY_PULL_PACKAGE_URL}'
           region: AWS_REGION
           repo: 'ml-house-reg'
           skip-when-tags-exist: false
