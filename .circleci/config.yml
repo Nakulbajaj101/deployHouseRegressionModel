@@ -124,8 +124,11 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-ecs/deploy-service-update:
+          cluster-name: 'houseReg-cluster'
+          container-image-name-updates: 'container=houseReg-service'
       - aws-ecs/run-task:
-          cluster: houseRegCluster
+          cluster: houseReg-cluster
           task-definition: houseml-service-task
 
 # Invoke jobs via workflows
