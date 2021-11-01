@@ -127,7 +127,7 @@ jobs:
       - run:
           name: Creating a service and cluster and running a task on fargate
           command: |
-            aws ecs update-service --cluster houseReg-cluster --service houseReg-service --task-definition  houseml-service-task --force-new-deployment
+            aws ecs update-service --cluster houseRegCluster --service houseRegService --task-definition  houseml-service-task --force-new-deployment
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
