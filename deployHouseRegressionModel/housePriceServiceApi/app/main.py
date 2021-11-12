@@ -25,6 +25,7 @@ def index(request: Request) -> Any:
         <html>
         <body style='padding: 10px;'>
         <h1>Welcome to Nakul House Prediction API</h1>
+        <p>Predict your house price with pride</p>
         <div>
         Check the docs: <a href='/docs'>here</a>
         </div>
