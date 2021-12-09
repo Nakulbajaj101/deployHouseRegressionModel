@@ -1,3 +1,35 @@
+#
+import logging
+from pathlib import Path
+
+import pytest
+from houseregression_model.config.core import (create_and_validate_config,
+                                               fetch_config_from_yaml)
+from pydantic import ValidationError
+
+logging.basicConfig(level=logging.INFO)
+
+
+TEST_APP_CONFIG = """
+# Package Overview
+package_name: regression_model
+
+"""
+
+TEST_MODEL_CONFIG = """
+
+# Package Overview
+package_name: regression_model
+training_data_file: train.csv
+test_data_file: test.csv
+pipeline_save_file: regression_model_output_v
+
+# Target Param
+target: SalePrice
+"""
+
+
+INVALID_TEST_CONFIG = """
 # Package Overview
 package_name: regression_model
 
@@ -71,9 +103,7 @@ n_estimators: 500
 
 # allowed loss functions
 allowed_loss_functions:
-  - ls
   - huber
-
 
 # categorical variables with NA in train set
 categorical_vars_with_na_frequent:
@@ -169,3 +199,70 @@ garage_mappings:
   Unf: 1
   RFn: 2
   Fin: 3
+"""
+
+
+def test_read_config():
+
+    # Given
+    parsed_config = fetch_config_from_yaml()
+
+    # When
+    config = create_and_validate_config(parsed_config)
+
+    # Then
+    assert config.model_config
+    assert config.app_config
+
+
+def test_config_validation_raises_validation_error(tmpdir):
+
+    # Given
+    configs_dir = Path(tmpdir)
+    config = configs_dir / "sample_config.yml"
+    config.write_text(INVALID_TEST_CONFIG)
+
+    parsed_config = fetch_config_from_yaml(config)
+
+    # When
+    with pytest.raises(ValidationError) as e:
+        create_and_validate_config(parsed_config)
+
+    # Then
+    assert "is not in the allowed set" in str(e.value)
+
+
+def test_missing_config_app_fields_raises_error(tmpdir):
+
+    # Given
+    configs_dir = Path(tmpdir)
+    config = configs_dir / "sample_config.yml"
+    config.write_text(TEST_APP_CONFIG)
+
+    parsed_config = fetch_config_from_yaml(config)
+
+    # When
+    with pytest.raises(ValidationError) as e:
+        create_and_validate_config(parsed_config)
+
+    # Then
+    assert "field required" in str(e.value)
+    assert "3 validation errors for AppConfig" in str(e.value)
+
+
+def test_missing_config_model_fields_raises_error(tmpdir):
+
+    # Given
+    configs_dir = Path(tmpdir)
+    config = configs_dir / "sample_config.yml"
+    config.write_text(TEST_MODEL_CONFIG)
+
+    parsed_config = fetch_config_from_yaml(config)
+
+    # When
+    with pytest.raises(ValidationError) as e:
+        create_and_validate_config(parsed_config)
+
+    # Then
+    assert "field required" in str(e.value)
+    assert "25 validation errors for ModelConfig" in str(e.value)

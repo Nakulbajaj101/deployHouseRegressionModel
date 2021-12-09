@@ -7,6 +7,8 @@ from feature_engine.imputation import (
 from feature_engine.selection import DropFeatures
 from feature_engine.transformation import LogTransformer
 from feature_engine.wrappers import SklearnTransformerWrapper
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import Lasso
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Binarizer, MinMaxScaler
@@ -110,12 +112,24 @@ price_pipe = Pipeline(
         ),
         # scale the variables before passing in the model
         ("scaler", MinMaxScaler()),
-        # train the model
+        # Select Features from Lasso
         (
-            "Lasso",
-            Lasso(
-                alpha=config.model_config.alpha,
+            "Select Features",
+            SelectFromModel(
+                Lasso(
+                    alpha=config.model_config.alpha,
+                    random_state=config.model_config.random_state,
+                )
+            ),
+        ),
+        # Train the model
+        (
+            "Training on Gradient Boosting",
+            GradientBoostingRegressor(
+                loss=config.model_config.loss,
+                learning_rate=config.model_config.learning_rate,
                 random_state=config.model_config.random_state,
+                n_estimators=config.model_config.n_estimators,
             ),
         ),
     ]

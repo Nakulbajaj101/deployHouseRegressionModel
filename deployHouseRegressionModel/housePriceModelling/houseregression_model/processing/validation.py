@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, StrictStr, Field
 
 from houseregression_model.config.core import config
 
@@ -27,18 +27,21 @@ def drop_na_inputs(*, input_data: pd.DataFrame) -> pd.DataFrame:
     return validated_data
 
 
-def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional[str]]:
+def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame,
+                                                          Optional[dict]]:
     """Check model inputs for unprocessable values"""
 
-    input_data.rename(columns=config.model_config.variables_to_rename, inplace=True)
+    input_data.rename(columns=config.model_config.variables_to_rename,
+                      inplace=True)
     input_data["MSSubClass"] = input_data["MSSubClass"].astype("O")
     relevant_data = input_data[config.model_config.features].copy()
     validated_data = drop_na_inputs(input_data=relevant_data)
-    errors = ""
+    errors = None
 
     try:
         MultipleHouseDataInputs(
-            inputs=validated_data.replace({np.nan: None}).to_dict(orient="records")
+            inputs=validated_data.replace({np.nan: None})
+                                 .to_dict(orient="records")
         )
     except ValidationError as error:
         errors = error.json()
@@ -49,7 +52,7 @@ def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional
 class HouseDataInputSchema(BaseModel):
     Alley: Optional[str]
     BedroomAbvGr: Optional[int]
-    BldgType: Optional[str]
+    BldgType: Optional[StrictStr]
     BsmtCond: Optional[str]
     BsmtExposure: Optional[str]
     BsmtFinSF1: Optional[float]
@@ -97,7 +100,7 @@ class HouseDataInputSchema(BaseModel):
     LotFrontage: Optional[float]
     LotShape: Optional[str]
     LowQualFinSF: Optional[int]
-    MSSubClass: str
+    MSSubClass: Optional[str]
     MSZoning: Optional[str]
     MasVnrArea: Optional[float]
     MasVnrType: Optional[str]
@@ -130,4 +133,4 @@ class HouseDataInputSchema(BaseModel):
 
 
 class MultipleHouseDataInputs(BaseModel):
-    inputs: List[HouseDataInputSchema]
+    inputs: List[HouseDataInputSchema] = Field(..., min_items=1)

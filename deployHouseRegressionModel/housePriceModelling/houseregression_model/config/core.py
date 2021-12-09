@@ -1,10 +1,9 @@
 from pathlib import Path
 from typing import Dict, List
 
-from pydantic import BaseModel
-from strictyaml import YAML, load
-
 import houseregression_model
+from pydantic import BaseModel, validator
+from strictyaml import YAML, load
 
 PACKAGE_ROOT = Path(houseregression_model.__file__).parent
 ROOT = PACKAGE_ROOT.parent
@@ -34,6 +33,8 @@ class ModelConfig(BaseModel):
     test_size: float
     random_state: int
     alpha: float
+    learning_rate: float
+    n_estimators: int
     categorical_vars_with_na_frequent: List[str]
     categorical_vars_with_na_missing: List[str]
     numerical_vars_with_na: List[str]
@@ -50,6 +51,21 @@ class ModelConfig(BaseModel):
     exposure_mappings: Dict[str, int]
     garage_mappings: Dict[str, int]
     finish_mappings: Dict[str, int]
+
+    allowed_loss_functions: List[str]
+    loss: str
+
+    @validator("loss")
+    def allowed_loss_values(cls, v, values, **kwargs):
+        """validator to validate right loss function"""
+
+        allowed_values = values.get("allowed_loss_functions")
+        if v not in allowed_values:
+            raise ValueError(
+                f"the loss parameter specified: {v}, "
+                f"is not in the allowed set: {allowed_values}"
+            )
+        return v
 
 
 class Config(BaseModel):
@@ -72,6 +88,8 @@ def fetch_config_from_yaml(config_file_path: Path = None) -> YAML:
 
     if not config_file_path:
         cfg_path = find_config_file()
+    else:
+        cfg_path = config_file_path
 
     if cfg_path:
         with open(cfg_path, "r") as config_file:
