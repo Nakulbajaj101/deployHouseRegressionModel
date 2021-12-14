@@ -162,6 +162,6 @@ workflows:
           repo: 'ml-house-reg'
           skip-when-tags-exist: false
           tag: 'latest'
-      - run-task:
-          requires:
-            - aws-ecr/build-and-push-image
+      #- run-task:
+      #    requires:
+      #      - aws-ecr/build-and-push-image
