@@ -28,7 +28,7 @@ def drop_na_inputs(*, input_data: pd.DataFrame) -> pd.DataFrame:
 
 
 def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame,
-                                                          Optional[dict]]:
+                                                          Optional[str]]:
     """Check model inputs for unprocessable values"""
 
     input_data.rename(columns=config.model_config.variables_to_rename,
