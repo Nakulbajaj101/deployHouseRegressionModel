@@ -31,11 +31,9 @@ def test_pipeline_time_transformer(train_data: List[pd.DataFrame]) -> None:
     X_train, X_test, y_train, y_test = train_data
 
     # When
-    transformer = price_pipe.named_steps["elapsed_time"].fit_transform(X_train,
-                                                                       y_train)
+    transformer = price_pipe.named_steps["elapsed_time"].fit_transform(X_train, y_train)
 
     # Then
     assert transformer["YearRemodAdd"].iloc[0] == (
-        X_train[config.model_config.ref_var].iloc[0] -
-        X_train["YearRemodAdd"].iloc[0]
+        X_train[config.model_config.ref_var].iloc[0] - X_train["YearRemodAdd"].iloc[0]
     )

@@ -1,9 +1,10 @@
 from pathlib import Path
 from typing import Dict, List
 
-import houseregression_model
 from pydantic import BaseModel, validator
 from strictyaml import YAML, load
+
+import houseregression_model
 
 PACKAGE_ROOT = Path(houseregression_model.__file__).parent
 ROOT = PACKAGE_ROOT.parent

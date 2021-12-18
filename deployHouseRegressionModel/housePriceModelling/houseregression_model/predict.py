@@ -16,8 +16,6 @@ def make_predictions(*, input_data: pd.DataFrame) -> Dict:
     data = pd.DataFrame(input_data)
     validated_data, errors = validate_inputs(input_data=data)
 
-    print(validated_data.shape)
-
     results = {"predictions": [], "version": _version, "errors": errors}
 
     if not errors:

@@ -11,7 +11,7 @@ class Health(BaseModel):
 
 
 class PredictionResults(BaseModel):
-    errors: str
+    errors: Optional[str]
     version: str
     predictions: Optional[List[float]]
 

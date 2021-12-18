@@ -3,9 +3,12 @@ import logging
 from pathlib import Path
 
 import pytest
-from houseregression_model.config.core import (create_and_validate_config,
-                                               fetch_config_from_yaml)
 from pydantic import ValidationError
+
+from houseregression_model.config.core import (
+    create_and_validate_config,
+    fetch_config_from_yaml,
+)
 
 logging.basicConfig(level=logging.INFO)
 
