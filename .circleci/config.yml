@@ -47,7 +47,7 @@ jobs:
             cd ..
             pip install -r requirements.txt
             python make_prediction_file.py
-            pip uninstall -r requirements.txt
+            pip uninstall -y -r requirements.txt
             cd housePriceModelling
       - run:
           name: Train Model and Publish Model
