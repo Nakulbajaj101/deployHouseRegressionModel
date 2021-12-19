@@ -27,7 +27,8 @@ def health() -> dict:
     return health.dict()
 
 
-@api_router.post("/predict", response_model=schemas.PredictionResults, status_code=200)
+@api_router.post("/predict", response_model=schemas.PredictionResults,
+                 status_code=200)
 async def predict(input_data: schemas.MultipleHouseDataInputs) -> Any:
     """Make a house prediction"""
 

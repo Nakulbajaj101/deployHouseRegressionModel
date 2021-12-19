@@ -10,6 +10,7 @@ __pycache__/
 
 # Datasets
 /deployHouseRegressionModel/housePriceModelling/houseregression_model/datasets
+/deployHouseRegressionModel/housePriceModelling/houseregression_model/old_predictions.csv
 
 # Distribution of packages and versions
 /deployHouseRegressionModel/housePriceModelling/dist

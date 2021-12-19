@@ -23,25 +23,11 @@ prepare_tox: &prepare_tox
   run:
     name: Install tox
     command: |
-      pip install tox
+      pip install tox==3.24.3
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  download-dataset:
-    <<: *defaults
-    working_directory: ~/project/deployHouseRegressionModel/housePriceModelling
-    steps:
-      - checkout:
-          path: ~/project
-      - python/install-packages:
-          pkg-manager: pip
-      - *prepare_tox
-      - run:
-          name: Running the download of dataset
-          command: |
-            tox -e download_data
-  
   train-and-publish-model:
     <<: *defaults
     working_directory: ~/project/deployHouseRegressionModel/housePriceModelling
@@ -55,12 +41,20 @@ jobs:
           name: Running the download of dataset
           command: |
             tox -e download_data
+      - run: 
+          name: Generating old predictions
+          command: |
+            cd ..
+            pip install -r requirements.txt
+            python make_prediction_file.py
+            pip uninstall -r requirements.txt
+            cd housePriceModelling
       - run:
           name: Train Model and Publish Model
           command: |
             tox
             tox -e publish_package
-
+            rm ./houseregression_model/old_predictions.csv
 
   build-and-test-api: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a Docker executors: https://circleci.com/docs/2.0/executor-types/
@@ -117,7 +111,7 @@ jobs:
             heroku container:push -a $HEROKU_APP_NAME web --arg GEMFURY_PULL_PACKAGE_URL=${GEMFURY_PULL_PACKAGE_URL}
             heroku container:release -a $HEROKU_APP_NAME web
 
-  run-task:
+  run-ecs-task:
     <<: *defaults
     steps:
       - aws-cli/setup:
@@ -162,6 +156,6 @@ workflows:
           repo: 'ml-house-reg'
           skip-when-tags-exist: false
           tag: 'latest'
-      #- run-task:
+      #- run-ecs-task:
       #    requires:
       #      - aws-ecr/build-and-push-image

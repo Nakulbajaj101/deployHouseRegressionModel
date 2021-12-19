@@ -53,7 +53,9 @@ def setup_logging(config: Settings) -> None:
     logging.getLogger().handlers = [InterceptHandler()]
     for logger_name in LOGGERS:
         logging_logger = logging.getLogger(logger_name)
-        logging_logger.handlers = [InterceptHandler(level=config.logging.LOGGING_LEVEL)]
+        logging_logger.handlers = [InterceptHandler(level=config
+                                                    .logging
+                                                    .LOGGING_LEVEL)]
     logger.configure(
         handlers=[{"sink": sys.stderr, "level": config.logging.LOGGING_LEVEL}]
     )
