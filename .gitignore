@@ -14,3 +14,6 @@ __pycache__/
 
 # Distribution of packages and versions
 /deployHouseRegressionModel/housePriceModelling/dist
+
+# Ignore model artefacts
+/deployHouseRegressionModel/housePriceModelling/tid_houseregression_model.egg-info
